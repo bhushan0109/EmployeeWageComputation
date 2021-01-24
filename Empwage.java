@@ -1,13 +1,13 @@
 public class Empwage {
-public static final int IS_PART_TIME = 1;
+	 public static void calculateTotalWage()
+    {
+	public static final int IS_PART_TIME = 1;
 	public static final int IS_FULL_TIME = 2;
 	public static final int EMP_RATE_PER_HOUR = 20;
 	public static final int NUM_OF_WORKING_DAYS = 20;
 	public static final int MAX_HRS_IN_MONTH = 100;
-
-	// method
-	public void CompanyEmpWage() {
-		int empHrs = 0;
+		
+		 int empHrs = 0;
 		int empWage = 0;
 		int totalEmpHrs = 0;
 		int totalWorkingDays = 0;
@@ -39,8 +39,7 @@ public static final int IS_PART_TIME = 1;
 	public static void main(String[] args) {
 		System.out.println("Employee Wage Compuatation problem");
 
-		Empwage ob = new Empwage();
-		ob.CompanyEmpWage(); //method calling
+		calculateTotalWage();
 	}
 
 }
