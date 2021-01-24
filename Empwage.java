@@ -1,78 +1,68 @@
 public class Empwage {
-	// constants
-	private static final int IS_PART_TIME = 1;
-	private static final int IS_FULL_TIME = 2;
+	// class constants
+	static final int PART_TIME = 1;
+	static final int FULL_TIME = 2;
+	// instance constants
+	final String COMPANY_NAME;
+	final int WAGE_PER_HR;
+	final int MAX_WORKING_DAYS;
+	final int MAX_WORKING_HRS;
+	// instance variable
+	int totalWage;
 
-	private int numOfCompany = 0;
-	private  CompnyEmpwage[] compnyEmpwageArray;
-
-	public Empwage() {
-		compnyEmpwageArray = new  CompnyEmpwage[5];
+	Empwage(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
+		COMPANY_NAME = companyName;
+		WAGE_PER_HR = wagePerHr;
+		MAX_WORKING_DAYS = maxWorkingDays;
+		MAX_WORKING_HRS = maxWorkingHrs;
+		totalWage = 0;
 	}
 
-	private void addCompnyEmpwage(String company, int empRatePerHour, int maxHoursPerMonth, int numOfWorkingDays) {
-		// declare an array for multiple company
-		compnyEmpwageArray[numOfCompany] = new  CompnyEmpwage(company, empRatePerHour, maxHoursPerMonth,
-				numOfWorkingDays);
-		numOfCompany++;
+	int getEmpType() {
+		return (int) (Math.random() * 100) % 3;
 	}
 
-	private void computeEmpwage() {
-		// calculating Total employee wage and storing it in to array
-		for (int i = 0; i < numOfCompany; i++) {
-			int totalEmpwage = this.computeEmpwage(compnyEmpwageArray[i]);
-			System.out.println("Total emp wage for company " + compnyEmpwageArray[i].company + "  is:" + totalEmpwage);
+	int getWorkingHrs(int empType) {
+		switch (empType) {
+		case FULL_TIME:
+			return 8;
+		case PART_TIME:
+			return 4;
+		default:
+			return 0;
 		}
 	}
 
-	private int computeEmpwage( CompnyEmpwage  CompnyEmpwage) {
-		// initalize the value and checking condition
-		int empHrs = 0, totalEmpHrs = 0, totalWorkingDays = 0;
-		
-		while (totalEmpHrs <=  CompnyEmpwage.maxHoursPerMonth && totalWorkingDays <  CompnyEmpwage.numOfWorkingDays) {
-			totalWorkingDays++;
-			int attendance = (int) (Math.random() * 3);
-			switch (attendance) {
-			case IS_FULL_TIME:
-				empHrs = 8;
-				break;
-			case IS_PART_TIME:
-				empHrs = 4;
-				break;
-			default:
-				empHrs = 0;
-				break;
-			}
-			totalEmpHrs = (totalEmpHrs + empHrs);
-			System.out.println("Days= " + totalWorkingDays + " Emp Hr: " + empHrs);
+	void calculateTotalWage() {
+
+		int workingHrs;
+		for (int day = 1, totalWorkingHrs = 0; day <= MAX_WORKING_DAYS
+				&& totalWorkingHrs <= MAX_WORKING_HRS; day++, totalWorkingHrs += workingHrs) {
+			int empType = getEmpType();
+			workingHrs = getWorkingHrs(empType);
+			int wage = workingHrs * WAGE_PER_HR;
+			totalWage += wage;
+
 		}
 
-		return totalEmpHrs *  CompnyEmpwage.empRatePerHour;
 	}
 
-	public static void main(String[] args) {
-		// creating object and call the object
-		Empwage Empwage = new Empwage();
-		Empwage.addCompnyEmpwage("Dmart", 100, 26, 30);
-		Empwage.addCompnyEmpwage("Reliance", 130, 28, 28);
-		Empwage.addCompnyEmpwage("Bigbasket", 150, 23, 25);
-		Empwage.computeEmpwage();
+	public String toString() {
+		System.out.println("Details of " + COMPANY_NAME + " employee");
+		System.err.println("Wage per hour:" + WAGE_PER_HR);
+		System.out.println("Maximum working days:" + MAX_WORKING_DAYS);
+		System.out.println("Maximum working hours:" + MAX_WORKING_HRS);
+		return "Total wage for a month of " + COMPANY_NAME + " employee is " + totalWage + "\n";
 	}
-}
 
-class  CompnyEmpwage {
-	// declaration
-	protected final String company;
-	protected final int empRatePerHour;
-	protected final int maxHoursPerMonth;
-	protected final int numOfWorkingDays;
+	public static void main(String args[]) {
+		Empwage dmart = new Empwage("Dmart", 100, 20, 100);
+		Empwage reliance = new Empwage("Reliance", 150, 30, 150);
 
-	public  CompnyEmpwage(String company, int empRatePerHour, int maxHoursPerMonth, int numOfWorkingDays) {
-		// calling constructor
-		this.company = company;
-		this.empRatePerHour = empRatePerHour;
-		this.maxHoursPerMonth = maxHoursPerMonth;
-		this.numOfWorkingDays = numOfWorkingDays;
+		dmart.calculateTotalWage();
+		System.out.println(dmart);
 
+		reliance.calculateTotalWage();
+		System.out.println(reliance);
 	}
 }
